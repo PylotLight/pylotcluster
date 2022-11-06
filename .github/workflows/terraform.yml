@@ -1,16 +1,17 @@
-name: 'Terraform'
+name: Terraform
 
 on:
-  push:
-    branches: [ "master" ]
-  pull_request:
+  workflow_dispatch:
+  # push:
+  #   branches: [ "master" ]
+  # pull_request:
 
 permissions:
   contents: read
 
 jobs:
   terraform:
-    name: 'Terraform'
+    name: Terraform
     runs-on: self-hosted
     environment: production
 

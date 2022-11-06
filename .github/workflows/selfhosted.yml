@@ -1,5 +1,5 @@
 # This is a basic workflow to help you get started with Actions
-name: Hello World
+name: Self Hosted Runner echo
 
 # Controls when the action will run. 
 on:
