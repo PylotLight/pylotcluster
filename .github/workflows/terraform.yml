@@ -24,7 +24,7 @@ permissions:
 
 jobs:
   Terraform:
-    name: Terraform
+    name: Terraform Plan
     runs-on: self-hosted
     environment: production
 
@@ -61,9 +61,9 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -input=false
-  terraform-apply:
+  terraform_apply:
     if:  ${{ inputs.apply }} 
-    name: Terraform-apply
+    name: Terraform Apply
     runs-on: self-hosted
     environment: production
 
