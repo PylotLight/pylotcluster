@@ -1,4 +1,4 @@
-name: 'Terraform'
+name: Terraform
 
 on:
   workflow_dispatch:
@@ -23,8 +23,8 @@ permissions:
   contents: read
 
 jobs:
-  terraform:
-    name: Terraform-Plan
+  Terraform:
+    name: Terraform
     runs-on: self-hosted
     environment: production
 
@@ -61,9 +61,9 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -input=false
-  terraform:
+  terraform-apply:
     if:  ${{ inputs.apply }} 
-    name: Terraform-Apply
+    name: Terraform-apply
     runs-on: self-hosted
     environment: production
 
