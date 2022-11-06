@@ -4,6 +4,10 @@ run-name: ${{ github.actor }} is learning GitHub Actions
 on:
   workflow_dispatch:
     inputs:
+      apply:
+        description: 'Select for Terrafrom apply'
+        required: true 
+        type: boolean 
       runprofile:
         description: 'Terraform Run Profile'
         required: true
@@ -13,10 +17,6 @@ on:
         - plan
         - apply
         - format
-      apply:
-        description: 'Select True for Terrafrom apply'
-        required: true 
-        type: boolean 
   # push:
   #   branches: [ "master" ]
   # pull_request:
