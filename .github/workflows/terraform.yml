@@ -2,6 +2,19 @@ name: Terraform
 
 on:
   workflow_dispatch:
+    inputs:
+    runprofile:
+      description: 'Terraform Run Profile'
+      required: true
+      default: plan 
+      type: choice
+      options:
+      - plan
+      - apply
+    apply:
+      description: 'Select to run Terrafrom apply'
+      required: true 
+      type: boolean 
   # push:
   #   branches: [ "master" ]
   # pull_request:
@@ -11,7 +24,7 @@ permissions:
 
 jobs:
   terraform:
-    name: Terraform
+    name: Terraform-Plan
     runs-on: self-hosted
     environment: production
 
@@ -48,9 +61,20 @@ jobs:
     # Generates an execution plan for Terraform
     - name: Terraform Plan
       run: terraform plan -input=false
+  terraform:
+    if:  ${{ inputs.apply }} 
+    name: Terraform-Apply
+    runs-on: self-hosted
+    environment: production
+
+    # Use the Bash shell regardless whether the GitHub Actions runner is ubuntu-latest, macos-latest, or windows-latest
+    defaults:
+      run:
+        shell: bash
+        working-directory: terraform
 
       # On push to "master", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
-      if: github.ref == 'refs/heads/"master"' && github.event_name == 'push'
-      run: terraform apply -input=false
+      #if: github.ref == 'refs/heads/"master"' && github.event_name == 'push'
+      run: terraform apply -auto-approve -input=false
