@@ -1,5 +1,5 @@
 name: Terraform
-run-name: ${{ github.actor }} is learning GitHub Actions
+# run-name: ${{ github.actor }} is learning GitHub Actions
 
 on:
   workflow_dispatch:
