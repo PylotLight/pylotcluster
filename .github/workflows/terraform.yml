@@ -5,11 +5,11 @@ on:
   workflow_dispatch:
     inputs:
       apply:
-        description: 'Select for Terrafrom apply'
+        description: Select for Terrafrom apply
         required: true 
         type: boolean 
       runprofile:
-        description: 'Terraform Run Profile'
+        description: Terraform Run Profile
         required: true
         default: plan 
         type: choice
@@ -77,6 +77,24 @@ jobs:
         shell: bash
         working-directory: terraform
     steps:
+     # Checkout the repository to the GitHub Actions runner
+    - name: Checkout
+      uses: actions/checkout@v3
+
+        # https://github.com/actions/setup-node
+    - uses: actions/setup-node@v3
+      with:
+        node-version: '16'
+    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+    - name: Setup Terraform
+      uses: hashicorp/setup-terraform@v1
+      with:
+        cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
+        #access vault for creds
+
+    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+    - name: Terraform Init
+      run: terraform init
       # On push to "master", build or change infrastructure according to Terraform configuration files
       # Note: It is recommended to set up a required "strict" status check in your repository for "Terraform Cloud". See the documentation on "strict" required status checks for more information: https://help.github.com/en/github/administering-a-repository/types-of-required-status-checks
     - name: Terraform Apply
