@@ -16,6 +16,7 @@ permissions:
 
 jobs:
   terraform-plan:
+    if:  ${{! inputs.apply }} 
     name: Terraform Plan
     runs-on: self-hosted
     environment: production
