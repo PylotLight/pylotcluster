@@ -55,7 +55,6 @@ jobs:
 
   terraform_apply:
     if:  ${{ inputs.apply }} 
-    needs: terraform-plan
     name: Terraform Apply
     runs-on: self-hosted
     environment: production
