@@ -41,6 +41,15 @@ jobs:
       uses: hashicorp/setup-terraform@v2
         #access vault for creds
 
+  - name: Import Secrets
+          uses: hashicorp/vault-action@v2
+          with:
+            url: {{ secrets.VAULT_HOST }}
+            tlsSkipVerify: true
+            token: {{ secrets.VAULT_TOKEN }}
+            secrets: |
+              pylot/ci app_secret
+
     # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
     - name: Terraform Init
       run: terraform init
