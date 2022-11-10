@@ -5,8 +5,8 @@ on:
     inputs:
       apply:
         description: Select for Terrafrom apply
-        required: true 
-        type: boolean 
+        required: true
+        type: boolean
   # push:
   #   branches: [ "master" ]
   # pull_request:
@@ -16,7 +16,7 @@ permissions:
 
 jobs:
   terraform-plan:
-    if:  ${{! inputs.apply }} 
+    if: ${{! inputs.apply }}
     name: Terraform Plan
     runs-on: self-hosted
     environment: production
@@ -28,42 +28,44 @@ jobs:
         working-directory: terraform
 
     steps:
-    # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v3
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses:
+          actions/checkout@v3
 
-        # https://github.com/actions/setup-node
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-        #access vault for creds
+          # https://github.com/actions/setup-node
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      - name: Setup Terraform
+        uses:
+          hashicorp/setup-terraform@v2
+          #access vault for creds
 
-    - name: Import Secrets
-      uses: hashicorp/vault-action@v2
-      with:
-        url: {{ secrets.VAULT_HOST }}
-        tlsSkipVerify: true
-        token: {{ secrets.VAULT_TOKEN }}
-        secrets: |
-          pylot/ci app_secret
+      - name: Import Secrets
+        uses: hashicorp/vault-action@v2
+        with:
+          url: ${{ secrets.VAULT_HOST }}
+          tlsSkipVerify: true
+          token: ${{ secrets.VAULT_TOKEN }}
+          secrets: |
+            pylot/ci app_secret
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: terraform init
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        run: terraform init
 
-    # Checks that all Terraform configuration files adhere to a canonical format
-    - name: Terraform Format
-      run: terraform fmt -diff
+      # Checks that all Terraform configuration files adhere to a canonical format
+      - name: Terraform Format
+        run: terraform fmt -diff
 
-    # Generates an execution plan for Terraform
-    - name: Terraform Plan
-      run: terraform plan -input=false
+      # Generates an execution plan for Terraform
+      - name: Terraform Plan
+        run: terraform plan -input=false
 
   terraform_apply:
-    if:  ${{ inputs.apply }} 
+    if: ${{ inputs.apply }}
     name: Terraform Apply
     runs-on: self-hosted
     environment: production
@@ -74,24 +76,25 @@ jobs:
         shell: bash
         working-directory: terraform
     steps:
-     # Checkout the repository to the GitHub Actions runner
-    - name: Checkout
-      uses: actions/checkout@v3
+      # Checkout the repository to the GitHub Actions runner
+      - name: Checkout
+        uses:
+          actions/checkout@v3
 
-        # https://github.com/actions/setup-node
-    - uses: actions/setup-node@v3
-      with:
-        node-version: '16'
-    # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
-    - name: Setup Terraform
-      uses: hashicorp/setup-terraform@v2
-      # with:
+          # https://github.com/actions/setup-node
+      - uses: actions/setup-node@v3
+        with:
+          node-version: "16"
+      # Install the latest version of Terraform CLI and configure the Terraform CLI configuration file with a Terraform Cloud user API token
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v2
+        # with:
         # cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
         #access vault for creds
 
-    # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
-    - name: Terraform Init
-      run: terraform init
-    
-    - name: Terraform Apply
-      run: terraform apply -auto-approve -input=false
+      # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
+      - name: Terraform Init
+        run: terraform init
+
+      - name: Terraform Apply
+        run: terraform apply -auto-approve -input=false
