@@ -1,6 +1,12 @@
-variable "Cluster_Host" {
-  type        = string
-  default     = ""
-  description = "Cluster host API Endpoint"
-  sensitive   = true
+variable "VAULT_ADDR" {
+  type      = string
+  sensitive = true
 }
+
+
+variable "VAULT_TOKEN" {
+  type      = string
+  sensitive = true
+}
+
+
