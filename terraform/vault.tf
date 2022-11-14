@@ -2,16 +2,16 @@ provider "vault" {
   address = var.VAULT_ADDR
 
   # Token used to get AppRole RoleID
-  token = var.VAULT_TOKEN
-    auth_login {
+  # token = var.VAULT_TOKEN
+  auth_login {
     path = "auth/approle/login"
 
     parameters = {
-      role_id   = var.ROLE_ID
-      secret_id = var.SECRET_ID
+      role_id   = var.VAULT_ROLE_ID
+      secret_id = var.VAULT_SECRET_ID
     }
+  }
 }
-
 data "vault_generic_secret" "cluster_info" {
   path = "pylot/cluster_info"
 }
