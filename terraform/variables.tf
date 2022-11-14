@@ -3,8 +3,17 @@ variable "VAULT_ADDR" {
   sensitive = true
 }
 
+# variable "VAULT_TOKEN" {
+#   type      = string
+#   sensitive = true
+# }
 
-variable "VAULT_TOKEN" {
+variable "VAULT_ROLE_ID" {
+  type      = string
+  sensitive = true
+}
+
+variable "VAULT_SECRET_ID" {
   type      = string
   sensitive = true
 }

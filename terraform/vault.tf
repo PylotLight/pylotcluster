@@ -3,6 +3,13 @@ provider "vault" {
 
   # Token used to get AppRole RoleID
   token = var.VAULT_TOKEN
+    auth_login {
+    path = "auth/approle/login"
+
+    parameters = {
+      role_id   = var.ROLE_ID
+      secret_id = var.SECRET_ID
+    }
 }
 
 data "vault_generic_secret" "cluster_info" {
