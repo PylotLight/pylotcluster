@@ -51,7 +51,8 @@ jobs:
           token: ${{ secrets.VAULT_TOKEN }}
           secrets: |
             pylot/data/cluster_info VAULT_ADDR | TF_VAR_VAULT_ADDR ;
-            pylot/data/cluster_info VAULT_TOKEN | TF_VAR_VAULT_TOKEN ;
+            pylot/data/cluster_info ROLE_ID | TF_VAR_VAULT_ROLE_ID ;
+            pylot/data/cluster_info SECRET_ID | TF_VAR_VAULT_SECRET_ID ;
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
