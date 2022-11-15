@@ -1,3 +1,10 @@
 provider "kubernetes" {
-  host = "https://127.0.0.1:6443"
+  host = data.vault_generic_secret.cluster_info.data["k8s_host"]
+  insecure = true
+}
+
+resource "kubernetes_namespace" "example" {
+  metadata {
+    name = "my-first-namespace"
+  }
 }
