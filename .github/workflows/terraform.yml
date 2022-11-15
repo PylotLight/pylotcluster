@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       apply:
-        description: Select for Terrafrom apply
+        description: Select for Terraform Apply
         required: true
         type: boolean
   # push:
@@ -93,6 +93,17 @@ jobs:
         # with:
         # cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
         #access vault for creds
+      
+      - name: Import Secrets
+        uses: hashicorp/vault-action@v2
+        with:
+          url: ${{ secrets.VAULT_HOST }}
+          tlsSkipVerify: true
+          token: ${{ secrets.VAULT_TOKEN }}
+          secrets: |
+            pylot/data/cluster_info VAULT_ADDR | TF_VAR_VAULT_ADDR ;
+            pylot/data/cluster_info ROLE_ID | TF_VAR_VAULT_ROLE_ID ;
+            pylot/data/cluster_info SECRET_ID | TF_VAR_VAULT_SECRET_ID ;
 
       # Initialize a new or existing Terraform working directory by creating initial files, loading any remote state, downloading modules, etc.
       - name: Terraform Init
