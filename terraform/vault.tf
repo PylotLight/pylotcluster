@@ -1,6 +1,6 @@
 provider "vault" {
   address = var.VAULT_ADDR
-
+  skip_child_token = true
   # Token used to get AppRole RoleID
   # token = var.VAULT_TOKEN
   auth_login {
@@ -12,6 +12,7 @@ provider "vault" {
     }
   }
 }
+
 data "vault_generic_secret" "cluster_info" {
   path = "pylot/cluster_info"
 }
