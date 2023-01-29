@@ -53,3 +53,5 @@ jobs:
     steps:
       - name: Print the input tag to STDOUT
         run: echo  The tags are ${{ inputs.tags }} 
+      - name: Print public IP
+        run: curl ifconfig.me
